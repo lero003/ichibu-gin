@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天保一分銀の魅力 - 混沌の時代に咲いた銀の花</title>
+    <style>
+        /* --- 全体の設定 --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background-color: #0a0014; /* 非常に暗い紫 */
+            color: #f0f0f0;
+            overflow-x: hidden; /* 横スクロール禁止 */
+        }
+
+        /* --- 派手な色味とグラデーション背景 --- */
+        body {
+            background: linear-gradient(-45deg, #0d001a, #2a003f, #3f0050, #002b36);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- コンテンツラッパー --- */
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            box-sizing: border-box; /* パディングを含めて幅を計算 */
+        }
+
+        /* --- ヒーローセクション (ファーストビュー) --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin: 0;
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+            animation: neonFlicker 1.5s infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #00ffff; /* サイアン */
+            margin-top: 1rem;
+            animation: fadeIn 3s ease-in;
+        }
+
+        /* --- SVG (一分銀) のスタイルとアニメーション --- */
+        #ichibugin-svg {
+            width: 200px;
+            height: 320px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.1;
+            filter: drop-shadow(0 0 15px #ffff00); /* 黄色のドロップシャドウ */
+            animation: spin 60s linear infinite;
+            z-index: -1;
+        }
+
+        .ichibugin-shape {
+            fill: none;
+            stroke: #ffff00; /* 黄色 */
+            stroke-width: 3;
+        }
+        .ichibugin-text {
+            fill: #ffff00;
+            font-size: 40px;
+            font-family: serif;
+        }
+        .sakura {
+            fill: #ff00ff; /* マゼンタ */
+        }
+
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes neonFlicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow:
+                0 0 8px #ff00ff,
+                0 0 16px #ff00ff,
+                0 0 24px #00ffff,
+                0 0 32px #00ffff;
+            }
+            20%, 24%, 55% {       
+                text-shadow: none;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- パララックスセクション --- */
+        .parallax-section {
+            padding: 100px 0;
+            min-height: 400px;
+            position: relative;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        /* 派手な背景画像 (疑似的なもの) */
+        .parallax-1 {
+            background-image: linear-gradient(rgba(255, 0, 255, 0.3), rgba(0, 255, 255, 0.3)), url('https://source.unsplash.com/random/1600x900/?abstract,neon');
+        }
+        .parallax-2 {
+            background-image: linear-gradient(rgba(255, 255, 0, 0.3), rgba(0, 0, 255, 0.3)), url('https://source.unsplash.com/random/1600x900/?abstract,galaxy');
+        }
+
+        .parallax-caption {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 20px #00ffff;
+        }
+
+        .parallax-caption h2 {
+            font-size: 2.5rem;
+            color: #ffff00; /* 黄色 */
+            margin: 0;
+        }
+
+        /* --- 通常コンテンツセクション --- */
+        .content-section {
+            padding: 60px 0;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .content-section h2 {
+            font-size: 2.8rem;
+            color: #ff00ff; /* マゼンタ */
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px #ff00ff;
+            transform: translateX(-100vw); /* JSで動かす初期位置 */
+            opacity: 0;
+            transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1), opacity 1s ease;
+        }
+        
+        /* JSで .is-visible クラスを付与して動かす */
+        .content-section h2.is-visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .content-section p {
+            margin-bottom: 1.5rem;
+            opacity: 0; /* JSで動かす初期状態 */
+            animation: textFadeIn 1s forwards;
+            animation-delay: 0.5s; /* 見出しより遅れて表示 */
+        }
+        
+        /* JSで .is-visible クラスを付与されたセクション内のPタグをアニメーション */
+        .content-section.is-visible p {
+            opacity: 1;
+        }
+
+        @keyframes textFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-section strong {
+            color: #00ffff; /* 強調文字はサイアン */
+            font-weight: bold;
+        }
+
+        /* --- フッター --- */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px dashed #ff00ff;
+            color: #aaa;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <svg id="ichibugin-svg" viewBox="0 0 200 320">
+            <defs>
+                <g id="sakura-pattern">
+                    <circle cx="0" cy="0" r="10" class="sakura" />
+                    <circle cx="0" cy="-8" r="4" fill="#0a0014"/>
+                    <circle cx="8" cy="0" r="4" fill="#0a0014"/>
+                    <circle cx="0" cy="8" r="4" fill="#0a0014"/>
+                    <circle cx="-8" cy="0" r="4" fill="#0a0014"/>
+                    <circle cx="5.6" cy="-5.6" r="4" fill="#0a0014"/>
+                    <circle cx="5.6" cy="5.6" r="4" fill="#0a0014"/>
+                    <circle cx="-5.6" cy="5.6" r="4" fill="#0a0014"/>
+                    <circle cx="-5.6" cy="-5.6" r="4" fill="#0a0014"/>
+                </g>
+            </defs>
+            <rect x="10" y="10" width="180" height="300" rx="15" ry="15" class="ichibugin-shape"/>
+            <text x="100" y="120" text-anchor="middle" class="ichibugin-text">一</text>
+            <text x="100" y="220" text-anchor="middle" class="ichibugin-text">分</text>
+            <text x="100" y="290" text-anchor="middle" class="ichibugin-text" font-size="30">銀</text>
+            
+            <use href="#sakura-pattern" x="30" y="30" class="svg-parallax" data-speed="2" />
+            <use href="#sakura-pattern" x="170" y="30" class="svg-parallax" data-speed="-2" />
+            <use href="#sakura-pattern" x="30" y="160" class="svg-parallax" data-speed="3" />
+            <use href="#sakura-pattern" x="170" y="160" class="svg-parallax" data-speed="-1" />
+            <use href="#sakura-pattern" x="30" y="290" class="svg-parallax" data-speed="1" />
+            <use href="#sakura-pattern" x="170" y="290" class="svg-parallax" data-speed="-3" />
+        </svg>
+
+        <h1>天保一分銀の魅力</h1>
+        <p>混沌の時代（とき）に咲いた、歪（いびつ）なる銀の花</p>
+    </header>
+
+    <main>
+        <section class="content-section" id="section1">
+            <div class="container">
+                <h2>序章：時代の混沌、財政の影</h2>
+                <p>
+                    時は天保年間（1830年～1844年）。日本が未曾有の動乱期へと突き進む、まさにその直前。国内では天保の大飢饉が猛威を振るい、世情は不安に揺れていました。幕府の財政は逼迫し、もはや限界に達していました。この国家的なクライシスを乗り越えるため、幕府が断行したのが「貨幣改鋳」という名の錬金術でした。
+                </p>
+                <p>
+                    そうした背景のもと、<strong>天保8年（1837年）に産声を上げたのが「天保一分銀」</strong>です。それは、従来の銀貨（丁銀や豆板銀）が重さで価値を測る「秤量貨幣（しょうりょうかへい）」であったのに対し、金貨である小判や一分金と同じく、額面が記され、枚数で価値が定まる「計数貨幣（けいすうかへい）」として設計されました。
+                </p>
+                <p>
+                    しかし、その内実には幕府の苦しい台所事情が色濃く反映されています。天保一分銀は、銀の含有率がわずか<strong>約26%</strong>。残りの大部分は銅などで占められていました。これは、先行する文政一分銀（銀含有率約46%）や、さらに古い慶長一分銀（銀含有率80%）と比較しても、著しく低い品位（ひんい）です。
+                </p>
+                <p>
+                    人々はこれを「泥銀（どろぎん）」と揶揄しました。額面上の価値（1/4両）と、素材としての実質価値が大きく乖離した、まさに「名目貨幣」の走りでした。しかし、この「悪貨」こそが、皮肉にも幕末の経済を凄まじい勢いで回転させ、同時にインフレーションという名の狂騒へと導いていくことになるのです。私たちが今宵語るのは、この薄暗い時代に生まれ落ちた、いびつで、しかし強烈な魅力を持つ銀片の物語です。
+                </p>
+            </div>
+        </section>
+
+        <section class="parallax-section parallax-1">
+            <div class="parallax-caption">
+                <h2>造形の妙：掌（たなごころ）の小宇宙</h2>
+            </div>
+        </section>
+
+        <section class="content-section" id="section2">
+            <div class="container">
+                <h2>第一章：計算された「美」と機能</h2>
+                <p>
+                    天保一分銀の魅力は、その生まれの背景だけではありません。約24mm × 16mmという小さな長方形のキャンバスに、当時の技術の粋が凝縮されています。
+                </p>
+                <p>
+                    表面には、その価値を示す「一分銀」の三文字が、力強く、しかしどこか飄々（ひょうひょう）とした独特の書体で刻まれています。この文字のバランスこそ、一分銀の「顔」を決定づける重要な要素です。
+                </p>
+                <p>
+                    裏面に目を転じれば、上部には鋳造を司る銀座の責任者・大黒常是（だいこくじょうぜ）の名を示す<strong>「定（じょう）」</strong>の極印（ごくいん）。その下には「銀座 常是」の文字。そして、これらを取り囲むように、上下左右と四隅に配置された<strong>合計20個の小さな桜紋</strong>。
+                </p>
+                <p>
+                    この桜紋こそ、天保一分銀の最大のミステリーであり、コレクターを魅了する深淵への入り口です。公式には単なる装飾、あるいは偽造防止のための意匠とされています。しかし、この小さな桜の花弁の向き、大きさ、そして配置には、不可解なほどの「個体差」が存在するのです。
+                </p>
+            </div>
+        </section>
+
+        <section class="content-section" id="section3">
+            <div class="container">
+                <h2>第二章：桜紋（さくら）に秘められた暗号</h2>
+                <p>
+                    天保一分銀は、その生涯で約8,150万枚という、当時の貨幣としては桁外れの量が鋳造されました。これほどの大量生産を支えたのは、銀座の高度な鋳造技術です。しかし、そこには「手作業」の痕跡が色濃く残されています。
+                </p>
+                <p>
+                    ここに、創造性豊かな「仮説」が存在します。それは、<strong>裏面の桜紋が、単なる装飾ではなく、鋳造時期や鋳造工房（「座」）を識別するための「隠し符丁」だったのではないか</strong>、という説です。
+                </p>
+                <p>
+                    例えば、特定の時期に作られたロットは、右上の桜の花弁がわずかに上を向いている。あるいは、ある工房で作られたものは、左下の桜が他よりも小さい。こうした微細な差異は、偶然の産物にしてはあまりにも系統立っているように見えるのです。
+                </p>
+                <p>
+                    幕府は、品位を落とした貨幣が市場でどのように受け入れられるか、あるいはどのように偽造されるかを、厳密に監視する必要がありました。そのために、どのロットがいつ、どこで作られたかを後から追跡できるよう、意図的に桜紋に差異＝シグネチャ（署名）を紛れ込ませたのではないか。
+                </p>
+                <p>
+                    この仮説には明確な文献的証拠はありません。しかし、もしこれが真実ならば、天保一分銀は、<strong>日本初の「シリアル管理された工業製品」</strong>としての側面を持っていたことになります。歴史の闇に葬られたこの「桜の暗号」を解読しようとすることこそ、収集家たちの知的好奇心を刺激してやまない最大のロマンなのです。
+                </p>
+            </div>
+        </section>
+
+        <section class="parallax-section parallax-2">
+            <div class="parallax-caption">
+                <h2>蒐集（しゅうしゅう）の深淵：手替わりの迷宮</h2>
+            </div>
+        </section>
+
+        <section class="content-section" id="section4">
+            <div class="container">
+                <h2>第三章：「手変わり」という無限の宇宙</h2>
+                <p>
+                    天保一分銀の収集は、「手変わり（てがわり）」と呼ばれる分類の沼に足を踏み入れることから始まります。手変わりとは、鋳造に使われる「母銭（ぼせん）」や「種銭（たねせん）」が、摩耗や破損によって作り直される過程で生じる、デザインの微細な差異を指します。
+                </p>
+                <p>
+                    天保一分銀は鋳造期間が長く、枚数も膨大だったため、この手変わりが天文学的な数、存在します。専門家たちは、表面の「分」の字のハネ方で<strong>「跳ね分（はねぶん）」「トメ分」</strong>に大別し、裏面の「常」の字の上部（尚）の形で<strong>「長柱（ちょうちゅう）」「短柱（たんちゅう）」</strong>などに分類します。
+                </p>
+                <p>
+                    さらに、枠線の太さ、文字のカスレ、桜紋の位置のズレ...。これらを組み合わせた分類は数百種類にも及び、その全貌はいまだ解明されていません。「自分の持つ一分銀は、まだ誰も発見していない新種の手変わりではないか？」という期待が、コレクターをこの迷宮へと誘います。
+                </p>
+                <p>
+                    それは、まるで広大な宇宙に散らばる星々を分類し、自分だけの新しい星を見つけようとする行為に似ています。<strong>「完全なコレクションは存在しない」</strong>。その事実こそが、天保一分銀が「終着点のない趣味」として、人々を虜（とりこ）にし続ける理由なのです。
+                </p>
+            </div>
+        </section>
+
+        <section class="content-section" id="section5">
+            <div class="container">
+                <h2>終章：銀片が繋ぐ、過去と未来</h2>
+                <p>
+                    天保一分銀。それは、財政難という国家の都合によって生み出された「悪貨」であり、幕末の経済混乱の一翼を担った存在でした。
+                </p>
+                <p>
+                    しかし、約180年の時を経た今、私たちの手にあるその銀片は、もはや単なる「お金」ではありません。それは、激動の時代を生きた人々の息遣い、財政再建に苦心した幕府の焦り、そして名もなき職人たちが込めた技術の証（あかし）を内包した、<strong>「歴史のタイムカプセル」</strong>です。
+                </p>
+                <p>
+                    そのずっしりとした重み（約8.6g）と、銀と銅が混じり合った独特の冷たさを掌で感じるとき、私たちは時空を超え、幕末というカオスの時代と繋がることができます。
+                </p>
+                <p>
+                    派手な輝きこそありませんが、知れば知るほどに奥深い世界が広がる。いびつで、不完全で、だからこそ愛おしい。それこそが、天保一分銀の抗いがたい魅力の正体なのです。
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 The Secret of Tenpo Ichibugin. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+
+            // --- 派手な演出 1: スクロールに応じた要素のフェードイン ---
+            const sections = document.querySelectorAll('.content-section');
+
+            const observerOptions = {
+                root: null, // ビューポートを基準
+                rootMargin: '0px',
+                threshold: 0.3 // 30%見えたら発火
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        // 一度表示したら監視を解除
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // --- 派手な演出 2: ヒーローセクションのSVGパララックス ---
+            const svgParallaxItems = document.querySelectorAll('.svg-parallax');
+
+            window.addEventListener('scroll', () => {
+                let scrollY = window.pageYOffset;
+
+                // ヒーローセクション内でのみ作動
+                if (scrollY < window.innerHeight) {
+                    svgParallaxItems.forEach(item => {
+                        const speed = item.dataset.speed;
+                        const yPos = -(scrollY * speed / 10); // スクロールと逆方向や速度差をつける
+                        item.setAttribute('transform', `translate(0, ${yPos})`);
+                    });
+                }
+            });
+
+            // --- 派手な演出 3: コンソールに派手なメッセージ (遊び心) ---
+            console.log(
+                "%c天保一分銀%c の深淵へようこそ...",
+                "font-size: 24px; color: #ff00ff; text-shadow: 0 0 5px #ff00ff;",
+                "font-size: 18px; color: #00ffff;"
+            );
+
+        });
+    </script>
+
+</body>
+</html>
