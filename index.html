@@ -20,6 +20,7 @@
             background: linear-gradient(-45deg, #0d001a, #2a003f, #3f0050, #002b36);
             background-size: 400% 400%;
             animation: gradientBG 20s ease infinite;
+            scroll-behavior: smooth;
         }
 
         @keyframes gradientBG {
@@ -35,6 +36,103 @@
             margin: 0 auto;
             padding: 2rem;
             box-sizing: border-box; /* パディングを含めて幅を計算 */
+        }
+
+        /* --- ナビゲーション --- */
+        .hero-nav {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 0, 20, 0.65);
+            border: 1px solid rgba(255, 0, 255, 0.4);
+            border-radius: 999px;
+            padding: 0.75rem 1.5rem;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.25);
+            backdrop-filter: blur(6px);
+        }
+
+        .hero-nav__links {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero-nav__cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .hero-nav a {
+            text-decoration: none;
+            color: #f0f0f0;
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
+            position: relative;
+            padding: 0.35rem 0.75rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .hero-nav__links .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0.15rem;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .hero-nav__links .nav-link:hover {
+            color: #00ffff;
+            transform: translateY(-2px);
+        }
+
+        .hero-nav__links .nav-link:hover::after,
+        .hero-nav__links .nav-link.is-active::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .hero-nav__links .nav-link.is-active {
+            color: #ffff00;
+            text-shadow: 0 0 8px rgba(255, 255, 0, 0.7);
+        }
+
+        .hero-nav .cta-button {
+            border: 1px solid rgba(0, 255, 255, 0.6);
+            border-radius: 999px;
+            padding: 0.45rem 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: linear-gradient(120deg, rgba(0, 255, 255, 0.15), rgba(255, 0, 255, 0.25));
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.35);
+        }
+
+        .hero-nav .cta-button.cta-secondary {
+            border-color: rgba(255, 0, 255, 0.6);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.35);
+        }
+
+        .hero-nav .cta-button:hover {
+            background: linear-gradient(120deg, rgba(255, 255, 0, 0.4), rgba(0, 255, 255, 0.4));
+            color: #0a0014;
+        }
+
+        .hero-nav .cta-button.is-active {
+            background: linear-gradient(120deg, rgba(255, 255, 0, 0.55), rgba(0, 255, 255, 0.55));
+            color: #0a0014;
+            box-shadow: 0 0 25px rgba(255, 255, 0, 0.55);
         }
 
         /* --- ヒーローセクション (ファーストビュー) --- */
@@ -64,6 +162,17 @@
             color: #00ffff; /* サイアン */
             margin-top: 1rem;
             animation: fadeIn 3s ease-in;
+        }
+
+        @media (max-width: 768px) {
+            .hero-nav {
+                border-radius: 24px;
+                padding: 1rem;
+            }
+
+            .hero-nav a {
+                font-size: 0.85rem;
+            }
         }
 
         /* --- SVG (一分銀) のスタイルとアニメーション --- */
@@ -200,6 +309,80 @@
             font-weight: bold;
         }
 
+        /* --- 年表セクション --- */
+        .timeline-section {
+            padding: 80px 0 40px;
+        }
+
+        .timeline-section .container {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .timeline-heading {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #ffff00;
+            text-shadow: 0 0 12px rgba(255, 255, 0, 0.7);
+            letter-spacing: 0.1em;
+        }
+
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .timeline-item {
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.12), rgba(0, 255, 255, 0.12));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .timeline-year {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ff00ff;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 8px rgba(255, 0, 255, 0.8);
+        }
+
+        .timeline-detail {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #e5e5f5;
+        }
+
+        .timeline-item.is-active {
+            border-color: rgba(255, 255, 0, 0.8);
+            box-shadow: 0 0 25px rgba(255, 255, 0, 0.45);
+            transform: translateY(-6px);
+        }
+
+        .timeline-item.is-active::before {
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .timeline-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* --- フッター --- */
         footer {
             text-align: center;
@@ -214,6 +397,19 @@
 <body>
 
     <header class="hero">
+        <nav class="hero-nav">
+            <ul class="hero-nav__links">
+                <li><a class="nav-link" href="#section1">序章</a></li>
+                <li><a class="nav-link" href="#section2">第一章</a></li>
+                <li><a class="nav-link" href="#section3">第二章</a></li>
+                <li><a class="nav-link" href="#section4">第三章</a></li>
+                <li><a class="nav-link" href="#section5">終章</a></li>
+            </ul>
+            <div class="hero-nav__cta">
+                <a class="cta-button nav-link" href="#timeline">年表へ</a>
+                <a class="cta-button cta-secondary nav-link" href="#gallery">ギャラリーへ</a>
+            </div>
+        </nav>
         <svg id="ichibugin-svg" viewBox="0 0 200 320">
             <defs>
                 <g id="sakura-pattern">
@@ -246,6 +442,33 @@
     </header>
 
     <main>
+        <section class="timeline-section" id="timeline">
+            <div class="container">
+                <h2 class="timeline-heading">幕末を駆ける天保一分銀の足跡</h2>
+                <div class="timeline-grid">
+                    <article class="timeline-item" data-year="1837">
+                        <h3 class="timeline-year">1837</h3>
+                        <p class="timeline-detail">天保8年、銀座で天保一分銀が鋳造開始。計数貨幣として新たな時代を切り開く。</p>
+                    </article>
+                    <article class="timeline-item" data-year="1841">
+                        <h3 class="timeline-year">1841</h3>
+                        <p class="timeline-detail">天保の改革下、銀貨の流通管理が強化され、桜紋による識別が重視され始める。</p>
+                    </article>
+                    <article class="timeline-item" data-year="1853">
+                        <h3 class="timeline-year">1853</h3>
+                        <p class="timeline-detail">ペリー来航により幕府は通貨制度の再検討を迫られ、天保一分銀の価値にも揺らぎが生じる。</p>
+                    </article>
+                    <article class="timeline-item" data-year="1859">
+                        <h3 class="timeline-year">1859</h3>
+                        <p class="timeline-detail">横浜開港後の貿易拡大で銀流出が加速。品位の低い一分銀が国内流通の主役となる。</p>
+                    </article>
+                    <article class="timeline-item" data-year="1867">
+                        <h3 class="timeline-year">1867</h3>
+                        <p class="timeline-detail">大政奉還の年、旧幕府による貨幣政策が終焉を迎え、天保一分銀は歴史的役割を閉じる。</p>
+                    </article>
+                </div>
+            </div>
+        </section>
         <section class="content-section" id="section1">
             <div class="container">
                 <h2>序章：時代の混沌、財政の影</h2>
@@ -309,7 +532,7 @@
             </div>
         </section>
 
-        <section class="parallax-section parallax-2">
+        <section class="parallax-section parallax-2" id="gallery">
             <div class="parallax-caption">
                 <h2>蒐集（しゅうしゅう）の深淵：手替わりの迷宮</h2>
             </div>
@@ -361,6 +584,8 @@
 
             // --- 派手な演出 1: スクロールに応じた要素のフェードイン ---
             const sections = document.querySelectorAll('.content-section');
+            const navLinks = document.querySelectorAll('.hero-nav a[href^="#"]');
+            const timelineItems = document.querySelectorAll('.timeline-item');
 
             const observerOptions = {
                 root: null, // ビューポートを基準
@@ -381,6 +606,56 @@
             sections.forEach(section => {
                 observer.observe(section);
             });
+
+            // --- ナビゲーションのアクティブ表示 ---
+            const navTargets = Array.from(navLinks)
+                .map(link => document.querySelector(link.getAttribute('href')))
+                .filter(target => target !== null);
+
+            const navObserver = new IntersectionObserver((entries) => {
+                const visibleEntries = entries
+                    .filter(entry => entry.isIntersecting)
+                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+                if (visibleEntries.length === 0) {
+                    return;
+                }
+
+                const activeId = visibleEntries[0].target.getAttribute('id');
+
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === `#${activeId}`) {
+                        link.classList.add('is-active');
+                    } else {
+                        link.classList.remove('is-active');
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.4
+            });
+
+            navTargets.forEach(target => navObserver.observe(target));
+
+            if (navLinks.length > 0) {
+                navLinks[0].classList.add('is-active');
+            }
+
+            // --- 年表カードのハイライト ---
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-active');
+                    } else {
+                        entry.target.classList.remove('is-active');
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.5
+            });
+
+            timelineItems.forEach(item => timelineObserver.observe(item));
 
             // --- 派手な演出 2: ヒーローセクションのSVGパララックス ---
             const svgParallaxItems = document.querySelectorAll('.svg-parallax');
